@@ -34,3 +34,19 @@ This is a project to practice how to use gcloud cli ☁️
     # Delete the instance
      $ gcloud compute instances delete [INSTANCE NAME] --zone=[ZONE]
 ```
+
+## Connect to a CloudSQL ☁️ Instance in postgres 🐘
+
+```sh
+# Set as super admin
+$ sudo su
+
+# Update the repositories
+$ apt-get update
+
+# Install postgres 🐘 client
+$ apt-get install postgresql-client
+
+# Connect to the postgresql 🐘 database
+$ psql --host=[THE DATABASE INSTANCE] --port=5432 --username=[YOUR USERNAME] --password --dbname=[YOUR DATABASE NAME]
+```

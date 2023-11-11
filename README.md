@@ -50,3 +50,18 @@ $ apt-get install postgresql-client
 # Connect to the postgresql 🐘 database
 $ psql --host=[THE DATABASE INSTANCE] --port=5432 --username=[YOUR USERNAME] --password --dbname=[YOUR DATABASE NAME]
 ```
+
+## Working with Google storage and buckets 🗑️
+
+```sh
+# Command to check where you are account, and project
+$ gcloud config list
+
+# How to management the storage
+
+#List your root bucket content or inside a folder
+$ gsutil ls gs://[YOUR BUCKET NAME]
+
+# Copy a file inside the bucket
+$ gsutil cp [YOUR FILE NAME 📝] gs://[YOUR BUCKET NAME]/[AN SPECIFIC FOLDER 📁]
+```

@@ -11,3 +11,9 @@ gcloud compute instances stop virtual-machine-development-01
 gcloud compute instances start virtual-machine-development-01 --zone=us-central1-a
 
 gcloud compute instances delete virtual-machine-development-01 --zone=us-central1-a
+
+gcloud config list
+
+gsutil ls gs://cloud-development-storage
+
+gsutil cp example-file.txt gs://cloud-development-storage/docs

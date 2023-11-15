@@ -65,3 +65,33 @@ $ gsutil ls gs://[YOUR BUCKET NAME]
 # Copy a file inside the bucket
 $ gsutil cp [YOUR FILE NAME 📝] gs://[YOUR BUCKET NAME]/[AN SPECIFIC FOLDER 📁]
 ```
+
+## Google cloud ☁️ pub/sub
+ ```sh
+ # This command is for create a topic
+ $ gcloud pubsub topics create [TOPIC NAME]
+
+ # This command is for list the topics
+ $ gcloud pubsub topics list
+
+  # This command is for delete the topic
+ $ gcloud pubsub topics delete [TOPIC NAME]
+
+ # This command is for create a subscription for an specific topic
+ $ gcloud  pubsub subscriptions create --topic [TOPIC NAME] [SUBSCRIPTION NAME]
+
+  # This command is for list the subscription of an specific topic
+ $ gcloud pubsub topics list-subscriptions [TOPIC NAME]
+
+  # This command is for delete a subscription
+ $ gcloud pubsub subscriptions delete [SUBSCRIPTION NAME]
+ # This command is for send a message to the topic
+ $ gcloud pubsub topics publish [TOPIC NAME] --message [YOUR MESSAGE]
+
+ # This command is for get the message from the subscription
+ $ gcloud pubsub subscriptions pull [SUBSCRIPTION] --auto-ack
+
+  # Thiscommand is for download the messages until the limit
+ $ gcloud pubsub subscriptions pull [SUBSCRIPTION] --auto-ack --limit=[THE QUANTITY OF MESSAGE TO GET]
+
+ ```

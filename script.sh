@@ -40,6 +40,15 @@ gcloud pubsub subscriptions pull mySubscription --auto-ack
 
 gcloud pubsub subscriptions pull mySubscription --auto-ack --limit=3
 
+gcloud config set compute/region us-central1
 
+export REGION=us-central1
 
+export ZONE=us-central1-c
+
+gcloud compute instances create gcelab2 --machine-type e2-medium --zone=$ZONE
+
+gcloud compute instances create --help
+
+gcloud compute ssh gcelab2 --zone=$ZONE
 

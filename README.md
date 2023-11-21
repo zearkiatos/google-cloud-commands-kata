@@ -95,3 +95,31 @@ $ gsutil cp [YOUR FILE NAME 📝] gs://[YOUR BUCKET NAME]/[AN SPECIFIC FOLDER �
  $ gcloud pubsub subscriptions pull [SUBSCRIPTION] --auto-ack --limit=[THE QUANTITY OF MESSAGE TO GET]
 
  ```
+
+ ## Cloud engine for Linux 🐧
+
+ ```sh
+
+#set region zone
+
+gcloud config set compute/region [YOUR REGION NAME]
+
+# variable for region
+
+export REGION=[YOUR REGION NAME]
+
+# variable for zone
+export ZONE=[YOUR ZONE NAME]
+
+# create a new instance
+
+gcloud compute instances create [YOUR VIRTUAL MACHINE INSTANCE NAME] --machine-type e2-medium --zone=$ZONE
+
+# to see default run
+gcloud compute instances create --help
+
+# To connect to the VMs
+
+gcloud compute ssh [YOUR VIRTUAL MACHINE INSTANCE NAME] --zone=$ZONE
+
+ ```

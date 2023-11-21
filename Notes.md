@@ -28,7 +28,10 @@ python subscriber.py $GOOGLE_CLOUD_PROJECT create MyTopic MySub
 # This to get a message
 python subscriber.py $GOOGLE_CLOUD_PROJECT receive MySub
 
-``````
+```
+
+
+
 
 
 

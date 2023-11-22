@@ -123,3 +123,12 @@ gcloud compute instances create --help
 gcloud compute ssh [YOUR VIRTUAL MACHINE INSTANCE NAME] --zone=$ZONE
 
  ```
+
+ ## Compute engine with windows 🪟 virtual machine
+
+```sh
+# Check if the RDP is allow
+gcloud compute instances get-serial-port-output [INSTANCE NAME]
+
+gcloud compute reset-windows-password  [INSTANCE NAME] --zone [ZONE] --user [USERNAME]
+```

@@ -52,3 +52,8 @@ gcloud compute instances create --help
 
 gcloud compute ssh gcelab2 --zone=$ZONE
 
+gcloud compute instances get-serial-port-output instance-1
+
+gcloud compute reset-windows-password  instance-1 --zone us-east1-d --user admin
+
+

@@ -267,4 +267,9 @@ gcloud compute forwarding-rules create http-content-rule \
    --ports=80
 ```
 
+# Internal loadbalance
+
+```sh
+
+``````
 

@@ -132,3 +132,139 @@ gcloud compute instances get-serial-port-output [INSTANCE NAME]
 
 gcloud compute reset-windows-password  [INSTANCE NAME] --zone [ZONE] --user [USERNAME]
 ```
+
+# Data base connection
+
+gcloud sql connect myinstance --user=postgres
+
+# Cloud loadbalance
+```sh
+# Set default region
+$ gcloud config set compute/region [THE REGION]
+
+# In Cloud Shell, set the default zone:
+
+$ gcloud config set compute/zone [ZONE]
+
+# Create virtual machine
+
+$ gcloud compute instances create [INSTANCE NAME] \
+    --zone=[ZONE] \
+    --tags=[TAG NAME] \
+    --machine-type=[MACHINE TYPE] \
+    --image-family=debian-11 \
+    --image-project=[PROJECT IMAGE] \
+    --metadata=startup-script=[STARTUP SCRIPT]
+
+# Config firewall
+$ gcloud compute firewall-rules create [LOADBALANCE NAME] \
+    --target-tags [TAG] --allow tcp:80
+
+# Create a healthcheck
+
+$ gcloud compute http-health-checks create [HEALTHCHECK NAME]
+ 
+# Add target to the pool
+$ gcloud compute target-pools create www-pool \
+  --region [REGION] --http-health-check [HEALTH CHECK NAME]
+
+# Add the instances
+
+$ gcloud compute target-pools add-instances www-pool \
+    --instances [INSTANCES SEPARATE WITH COLON]
+
+# Add forwarding tools
+$ gcloud compute forwarding-rules create [RULE NAME] \
+    --region [REGION] \
+    --ports [PORT] \
+    --address [LOADBALANCE] \
+    --target-pool www-pool
+
+# Forwarding
+
+$ gcloud compute forwarding-rules describe www-rule --region [REGION]
+
+# Access to   the external IP
+$ IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region [REGION] --format="json" | jq -r .IPAddress)
+
+# Load balance address
+$ gcloud compute instance-templates create lb-backend-template \
+   --region=us-central1 \
+   --network=default \
+   --subnet=default \
+   --tags=allow-health-check \
+   --machine-type=e2-medium \
+   --image-family=debian-11 \
+   --image-project=debian-cloud \
+   --metadata=startup-script='#!/bin/bash
+     apt-get update
+     apt-get install apache2 -y
+     a2ensite default-ssl
+     a2enmod ssl
+     vm_hostname="$(curl -H "Metadata-Flavor:Google" \
+     http://169.254.169.254/computeMetadata/v1/instance/name)"
+     echo "Page served from: $vm_hostname" | \
+     tee /var/www/html/index.html
+     systemctl restart apache2'
+
+# Managed instance group
+
+gcloud compute instance-groups managed create lb-backend-group \
+   --template=[TEMPLATE] --size=2 --zone=[ZONE]
+
+# Allow healthcheck in the firewall
+
+$ gcloud compute firewall-rules create fw-allow-health-check \
+  --network=default \
+  --action=allow \
+  --direction=ingress \
+  --source-ranges=130.211.0.0/22,35.191.0.0/16 \
+  --target-tags=allow-health-check \
+  --rules=tcp:80
+
+  # Set global static external ip for loadbalance
+  gcloud compute addresses create lb-ipv4-1 \
+  --ip-version=IPV4 \
+  --global
+
+# Get the reserved IP
+
+gcloud compute addresses describe lb-ipv4-1 \
+  --format="get(address)" \
+  --global
+
+# Create a healthcheck load balance
+gcloud compute health-checks create http http-basic-check \
+  --port 80
+
+# Create a backend service
+gcloud compute backend-services create web-backend-service \
+  --protocol=HTTP \
+  --port-name=http \
+  --health-checks=http-basic-check \
+  --global
+
+# add the backend to the instance group
+gcloud compute backend-services add-backend web-backend-service \
+  --instance-group=lb-backend-group \
+  --instance-group-zone=us-central1-c \
+  --global
+
+# URL Map
+
+gcloud compute url-maps create web-map-http \
+    --default-service web-backend-service
+
+# Create a http proxu
+gcloud compute target-http-proxies create http-lb-proxy \
+    --url-map web-map-http
+
+# Create a global firewall
+gcloud compute forwarding-rules create http-content-rule \
+   --address=lb-ipv4-1\
+   --global \
+   --target-http-proxy=http-lb-proxy \
+   --ports=80
+```
+
+

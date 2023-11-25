@@ -271,5 +271,24 @@ gcloud compute forwarding-rules create http-content-rule \
 
 ```sh
 
-``````
+```
 
+# Deploy an application on Cloud run
+
+
+```sh
+# Auth to google docker configuration
+$  gcloud auth configure-docker
+
+# Create a docker tag in the google cloud artifact
+$   gcloud builds submit --tag [TAG THE DOCKER IMAGE WITH THE REGISTRY]
+
+# Deploy the imaage
+$ gcloud run deploy monolith --image [TAG THE DOCKER IMAGE WITH THE REGISTRY] --region [ADD THE REGION]
+
+# List the images
+$ gcloud run services list
+
+# Deploy the services
+$ gcloud run services describe monolith --platform managed --region [ADD THE REGION]
+```

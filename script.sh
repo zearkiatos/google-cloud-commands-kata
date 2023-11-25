@@ -168,3 +168,25 @@ gcloud compute forwarding-rules create http-content-rule \
    --global \
    --target-http-proxy=http-lb-proxy \
    --ports=80
+
+   gcloud auth configure-docker
+
+   gcloud services enable artifactregistry.googleapis.com \
+    cloudbuild.googleapis.com \
+    run.googleapis.com
+
+    gcloud builds submit --tag us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/monolith-demo/monolith:1.0.0
+
+    gcloud run deploy monolith --image us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/monolith-demo/monolith:1.0.0 --region us-central1
+
+    gcloud run services list
+
+    gcloud run deploy monolith --image us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/monolith-demo/monolith:1.0.0 --region us-central1 --concurrency 1
+
+    gcloud run deploy monolith --image us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/monolith-demo/monolith:1.0.0 --region us-central1 --concurrency 80
+
+    gcloud builds submit --tag us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/monolith-demo/monolith:2.0.0
+
+    gcloud run services describe monolith --platform managed --region us-central1
+
+    

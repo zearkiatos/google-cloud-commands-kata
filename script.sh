@@ -189,4 +189,38 @@ gcloud compute forwarding-rules create http-content-rule \
 
     gcloud run services describe monolith --platform managed --region us-central1
 
+    # Cloud storage
+
+    gsutil mb gs://my-bucket-kata
+
+    # download a image into a bucket
+    curl https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/800px-Ada_Lovelace_portrait.jpg --output ada.jpg
+
+    gsutil cp ada.jpg gs://my-bucket-kata
+
+    # download from bucket 
+    gsutil cp -r gs://my-bucket-kata/ada.jpg .
     
+    # copy a image in the same bucket
+    
+    gsutil cp gs://my-bucket-kata/ada.jpg gs://my-bucket-kata/image-folder/
+    
+    # list content bucket
+    
+    gsutil ls gs://my-bucket-kata
+    
+    # list content bucket with details
+    
+    gsutil ls -l gs://my-bucket-kata/ada.jpg
+    
+    # manipulate access with public
+    
+    gsutil acl ch -u AllUsers:R gs://my-bucket-kata/ada.jpg
+    
+    # Remove publish access
+    
+    gsutil acl ch -d AllUsers gs://my-bucket-kata/ada.jpg
+    
+    # delete objects
+    
+    gsutil rm gs://my-bucket-kata/ada.jpg

@@ -292,3 +292,39 @@ $ gcloud run services list
 # Deploy the services
 $ gcloud run services describe monolith --platform managed --region [ADD THE REGION]
 ```
+
+# Cloud storage
+
+```sh
+ # Download a image into a bucket
+  $ curl https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/800px-Ada_Lovelace_portrait.jpg --output ada.jpg
+
+ $ gsutil cp ada.jpg gs://[YOUR BUCKET NAME]
+
+ # Download from bucket 
+ $ gsutil cp -r gs://[YOUR BUCKET NAME]/ada.jpg .
+    
+  # Copy a image in the same bucket
+    
+  $ gsutil cp gs://[YOUR BUCKET NAME]/ada.jpg gs://[YOUR BUCKET NAME]/image-folder/
+    
+  # List content bucket
+    
+  $ gsutil ls gs://[YOUR BUCKET NAME]
+    
+  # List content bucket with details
+    
+  $ gsutil ls -l gs://[YOUR BUCKET NAME]/ada.jpg
+    
+  # manipulate access with public
+    
+  $ gsutil acl ch -u AllUsers:R gs://[YOUR BUCKET NAME]/ada.jpg
+    
+  # Remove publish access
+    
+  $ gsutil acl ch -d AllUsers gs://[YOUR BUCKET NAME]/ada.jpg
+    
+  # delete objects
+    
+  $ gsutil rm gs://[YOUR BUCKET NAME]/ada.jpg
+```
